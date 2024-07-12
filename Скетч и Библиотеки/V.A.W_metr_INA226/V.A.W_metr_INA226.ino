@@ -77,7 +77,7 @@ void loop() {
   //----- Расчет всех динамических данных.------
  V = INA226.getBusMilliVolts() / 10e2;
  A = INA226.getBusMicroAmps()  /10e3;
- //W = INA226.getBusMicroWatts() / 10e5;
+ input_W = INA226.getBusMicroWatts() / 10e5;
  W = V*A;
  if (V<0){V=0;}
    if (A<0){A=0;}
