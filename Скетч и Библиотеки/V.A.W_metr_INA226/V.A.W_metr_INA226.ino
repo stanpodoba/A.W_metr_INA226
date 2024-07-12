@@ -22,6 +22,11 @@ int   V_graf , A_graf , PWM_out ;
 int   PWM = 0 ;
 unsigned long  new_Millis ;
 
+const steps_smooth_W = 4; // Количество шагов сглаживания Ватт
+int values_of_input_W = [steps_smooth_W]; // Массив значений Ватт для вычисления среднего арифметического
+int = average_input_W 0; // Последнее вычисленное среднее арифметическое Ватт
+int input_W_counter = 0; // Текущий шаг для сглаживания значений Ватт
+
 #define B 3950 // B-коэффициент
 #define SERIAL_R 100000 // сопротивление последовательного резистора, 100 кОм
 #define THERMISTOR_R 100000 // номинальное сопротивления термистора, 100 кОм
@@ -84,7 +89,21 @@ void loop() {
     if (W<0){W=0;}
   mAh += A * (millis() - new_Millis) / 3600000 * 1000; //расчет емкости  в мАч
   new_Millis = millis();
-  
+
+ // Расчет среднего арифметического значения Ватт
+ if (input_W_counter < steps_smooth_W) {
+    values_of_input_W[input_W_counter] = input_W; // Сохраняем значение Ватт для последующего сглаживания
+    input_W_counter++;
+ } else {
+    input_W_counter = 0;
+
+    for(int i = 0; i < sizeof(steps_smooth_W); i++) {
+        average_input_W = values_of_input_W[i];
+    }
+
+    average_input_W = average_input_W / steps_smooth_W;
+ }
+
   // Определяем температуру на датчике.
 
   int t = analogRead( tempPin );
