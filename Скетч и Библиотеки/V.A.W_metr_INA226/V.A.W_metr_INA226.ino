@@ -29,7 +29,7 @@ int shim_shift_steps = 1; // Количество шагов на которые
 int forward_direction = 0; // "Направление" изменения ШИМА. 0 - "влево", 1 - "вправо"
 
 // Получение значения "возвращения" назад по координатам мощность-шим
-int changeDirection(value) {
+int changeDirection(int value) {
   if (0 == value) return 1;
   return 0;
 }
