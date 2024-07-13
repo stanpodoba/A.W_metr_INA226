@@ -34,11 +34,6 @@ int changeDirection(value) {
   return 0;
 }
 
-int increaseDirection(value) {
-    if (2 > ++value) return value;
-    return 2;
-}
-
 #define B 3950 // B-коэффициент
 #define SERIAL_R 100000 // сопротивление последовательного резистора, 100 кОм
 #define THERMISTOR_R 100000 // номинальное сопротивления термистора, 100 кОм
