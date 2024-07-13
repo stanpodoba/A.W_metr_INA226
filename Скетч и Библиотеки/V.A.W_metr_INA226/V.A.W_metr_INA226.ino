@@ -22,6 +22,10 @@ int   V_graf , A_graf , PWM_out ;
 int   PWM = 0 ;
 unsigned long  new_Millis ;
 
+int input_W = 0
+int last_input_W = 0;
+const shim_shift_steps = 1; // Количество шагов на которые изменяется шим за раз
+int forward_direction = 0;
 
 #define B 3950 // B-коэффициент
 #define SERIAL_R 100000 // сопротивление последовательного резистора, 100 кОм
@@ -86,6 +90,24 @@ void loop() {
   mAh += A * (millis() - new_Millis) / 3600000 * 1000; //расчет емкости  в мАч
   new_Millis = millis();
 
+  // Расчет шима в зависимости от Ватт
+
+  // Расчет "направления" сдвига значения шима
+  if (input_W < last_input_W) { // Если текущие Ватты меньше предыдущих - мы идем в неверном направлении. Меняем направление
+    if (forward_direction == 0) { // Если шли "влево"...
+        forward_direction = 1; // ...идем "вправо"
+    } else {
+        forward_direction = 0; // ...или наоборот
+    }
+  }
+
+  // После-того как мы скорректировали направление повышаем или понижаем мощность в зависимости от этого направления
+
+  if (forward_direction == 0) {
+    PWM = PWM - shim_shift_steps; // понижаем ШИМ если идем "влево"
+  } else {
+    PWM = PWM + shim_shift_steps; // или увеличиваем если идем "вправо"
+  }
 
   // Определяем температуру на датчике.
 
