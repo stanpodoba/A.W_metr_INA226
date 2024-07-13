@@ -28,6 +28,17 @@ int last_input_W = 0; // Прошлое значение Ватт
 int shim_shift_steps = 1; // Количество шагов на которые изменяется шим за раз
 int forward_direction = 0; // "Направление" изменения ШИМА. 0 - "влево", 1 - "вправо"
 
+// Получение значения "возвращения" назад по координатам мощность-шим
+int changeDirection(value) {
+  if (0 == value) return 1;
+  return 0;
+}
+
+int increaseDirection(value) {
+    if (2 > ++value) return value;
+    return 2;
+}
+
 #define B 3950 // B-коэффициент
 #define SERIAL_R 100000 // сопротивление последовательного резистора, 100 кОм
 #define THERMISTOR_R 100000 // номинальное сопротивления термистора, 100 кОм
@@ -96,11 +107,7 @@ void loop() {
 
   // Расчет "направления" сдвига значения шима
   if (input_W < last_input_W) { // Если текущие Ватты меньше предыдущих - мы идем в неверном направлении. Меняем направление
-    if (forward_direction == 0) { // Если шли "влево"...
-        forward_direction = 1; // ...идем "вправо"
-    } else {
-        forward_direction = 0; // ...или наоборот
-    }
+    forward_direction = changeDirection(forward_direction);
   }
 
   // После-того как мы скорректировали направление повышаем или понижаем мощность в зависимости от этого направления
