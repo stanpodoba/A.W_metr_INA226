@@ -115,6 +115,7 @@ void loop() {
     }
   }
 
+  if (PWM == 0 || PWM == 255) forward_direction = changeDirection(forward_direction);
   // Определяем температуру на датчике.
 
   int t = analogRead( tempPin );
