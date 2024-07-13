@@ -100,10 +100,10 @@ void loop() {
   temperature = 1.0 / temperature; // Invert
   temperature -= 273.15;
   //Рассчитываем  ШИМ вентилятора.
-  if (temperature >= Temp_min && temperature <= Temp_max )  {
-    PWM = ( temperature - Temp_min ) * 255 / ( Temp_max - Temp_min ); }
-  else if (temperature < Temp_min)  { PWM = 0;}
-  else if (temperature >= Temp_max)  {PWM = 255;}
+//   if (temperature >= Temp_min && temperature <= Temp_max )  {
+//     PWM = ( temperature - Temp_min ) * 255 / ( Temp_max - Temp_min ); }
+//   else if (temperature < Temp_min)  { PWM = 0;}
+//   else if (temperature >= Temp_max)  {PWM = 255;}
 
   //PWM = map(temperature,Temp_min, Temp_max, 30, 255);
 //----- Отображение всех динамических данных.------
