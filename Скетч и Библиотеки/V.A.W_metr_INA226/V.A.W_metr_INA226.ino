@@ -110,13 +110,15 @@ void loop() {
     forward_direction = changeDirection(forward_direction);
   }
 
-  // После-того как мы скорректировали направление повышаем или понижаем мощность в зависимости от этого направления
+  if (input_W != last_input_W) {
+    // После-того как мы скорректировали направление повышаем или понижаем мощность в зависимости от этого направления
+    if (forward_direction == 0) {
+      PWM = PWM - shim_shift_steps; // понижаем ШИМ если идем "влево"
+    }
 
-  if (forward_direction == 0) {
-
-    PWM = PWM - shim_shift_steps; // понижаем ШИМ если идем "влево"
-  } else {
-    PWM = PWM + shim_shift_steps; // или увеличиваем если идем "вправо"
+    if (forward_direction == 1) {
+      PWM = PWM - shim_shift_steps; // понижаем ШИМ если идем "влево"
+    }
   }
 
   // Определяем температуру на датчике.
