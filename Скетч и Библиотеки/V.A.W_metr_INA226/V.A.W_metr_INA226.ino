@@ -115,6 +115,7 @@ void loop() {
     }
   }
 
+  if (PWM == 0 || PWM == 255) forward_direction = changeDirection(forward_direction);
 
   if (PWM < 0) PWM = 0;
   if (PWM > 255) PWM = 255;
