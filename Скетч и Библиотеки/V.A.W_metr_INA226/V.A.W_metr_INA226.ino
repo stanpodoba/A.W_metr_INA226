@@ -19,7 +19,6 @@ float  Temp_max = 60 ; // Температура при которой скор�
 float  temperature = 0 ;
 float  V,A, W , mAh , Wh ;
 int   V_graf , A_graf , PWM_out ;
-int   PWM = 0 ;
 int   PWM = 128 ;
 unsigned long  new_Millis ;
 
