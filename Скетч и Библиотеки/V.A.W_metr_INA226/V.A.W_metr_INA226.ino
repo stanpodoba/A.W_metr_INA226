@@ -22,10 +22,11 @@ int   V_graf , A_graf , PWM_out ;
 int   PWM = 128 ;
 unsigned long  new_Millis ;
 
-int input_W = 0
-int last_input_W = 0;
+// Переменные для расчета ШИМА
+int input_W = 0; // Текущее значение Ватт
+int last_input_W = 0; // Прошлое значение Ватт
 const shim_shift_steps = 1; // Количество шагов на которые изменяется шим за раз
-int forward_direction = 0;
+int forward_direction = 0; // "Направление" изменения ШИПА. 0 - "влево", 1 - "вправо"
 
 #define B 3950 // B-коэффициент
 #define SERIAL_R 100000 // сопротивление последовательного резистора, 100 кОм
@@ -105,6 +106,7 @@ void loop() {
   // После-того как мы скорректировали направление повышаем или понижаем мощность в зависимости от этого направления
 
   if (forward_direction == 0) {
+
     PWM = PWM - shim_shift_steps; // понижаем ШИМ если идем "влево"
   } else {
     PWM = PWM + shim_shift_steps; // или увеличиваем если идем "вправо"
