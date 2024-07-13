@@ -104,7 +104,6 @@ void loop() {
   new_Millis = millis();
 
   // Расчет шима в зависимости от Ватт
-
   // Расчет "направления" сдвига значения шима
   if (input_W < last_input_W) { // Если текущие Ватты меньше предыдущих - мы идем в неверном направлении. Меняем направление
     forward_direction = changeDirection(forward_direction);
