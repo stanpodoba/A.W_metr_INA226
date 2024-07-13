@@ -20,6 +20,7 @@ float  temperature = 0 ;
 float  V,A, W , mAh , Wh ;
 int   V_graf , A_graf , PWM_out ;
 int   PWM = 0 ;
+int   PWM = 128 ;
 unsigned long  new_Millis ;
 
 int input_W = 0
@@ -82,8 +83,9 @@ void loop() {
   //----- Расчет всех динамических данных.------
  V = INA226.getBusMilliVolts() / 10e2;
  A = INA226.getBusMicroAmps()  /10e3;
- input_W = INA226.getBusMicroWatts() / 10e5;
+ //input_W = INA226.getBusMicroWatts() / 10e5;
  W = V*A;
+ input_W = W;
  if (V<0){V=0;}
    if (A<0){A=0;}
     if (W<0){W=0;}
