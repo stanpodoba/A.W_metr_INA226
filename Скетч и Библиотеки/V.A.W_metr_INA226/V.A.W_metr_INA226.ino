@@ -115,6 +115,10 @@ void loop() {
     }
   }
 
+
+  if (PWM < 0) PWM = 0;
+  if (PWM > 255) PWM = 255;
+
   last_input_W = input_W;
 
   // Определяем температуру на датчике.
