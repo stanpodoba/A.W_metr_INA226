@@ -23,8 +23,8 @@ int   PWM = 128 ;
 unsigned long  new_Millis ;
 
 // Переменные для расчета ШИМА
-int input_W = 0; // Текущее значение Ватт
-int last_input_W = 0; // Прошлое значение Ватт
+float input_W = 0; // Текущее значение Ватт
+float last_input_W = 0; // Прошлое значение Ватт
 int shim_shift_steps = 1; // Количество шагов на которые изменяется шим за раз
 int forward_direction = 0; // "Направление" изменения ШИМА. 0 - "влево", 1 - "вправо"
 
