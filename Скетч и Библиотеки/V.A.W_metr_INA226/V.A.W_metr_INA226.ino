@@ -104,8 +104,9 @@ void loop() {
     forward_direction = changeDirection(forward_direction);
   }
 
+  // Если прошлое и значение значение Ватт разное - корректируем ШИМ
   if (input_W != last_input_W) {
-    // После-того как мы скорректировали направление повышаем или понижаем мощность в зависимости от этого направления
+
     if (forward_direction == 0) {
       PWM = PWM - shim_shift_steps; // понижаем ШИМ если идем "влево"
     }
