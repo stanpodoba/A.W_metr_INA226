@@ -112,7 +112,7 @@ void loop() {
     }
 
     if (forward_direction == 1) {
-      PWM = PWM - shim_shift_steps; // понижаем ШИМ если идем "влево"
+      PWM = PWM + shim_shift_steps; // понижаем ШИМ если идем "влево"
     }
   }
 
