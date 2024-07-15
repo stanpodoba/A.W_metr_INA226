@@ -27,8 +27,8 @@ float input_W = 0; // Текущее значение Ватт
 float last_input_W = 0; // Прошлое значение Ватт
 int shim_shift_steps = 1; // Количество шагов на которые изменяется шим за раз
 int forward_direction = 0; // "Направление" изменения ШИМА. 0 - "влево", 1 - "вправо"
-int delayPwmUpdate = 100;
-unsigned long lastTimePwmUpdated = 0;
+int delayPwmUpdate = 100; // Задержка обновления ШИМ
+unsigned long lastTimePwmUpdated = 0; // Тут хранится время последнего обновления ШИМ
 
 // Получение противоположного значения направления изменения шима
 int changeDirection(int value) {
