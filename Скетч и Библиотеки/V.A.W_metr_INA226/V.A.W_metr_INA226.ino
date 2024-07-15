@@ -27,6 +27,8 @@ float input_W = 0; // Текущее значение Ватт
 float last_input_W = 0; // Прошлое значение Ватт
 int shim_shift_steps = 1; // Количество шагов на которые изменяется шим за раз
 int forward_direction = 0; // "Направление" изменения ШИМА. 0 - "влево", 1 - "вправо"
+int delayPwmUpdate = 100;
+unsigned long lastTimePwmUpdated = 0;
 
 // Получение противоположного значения направления изменения шима
 int changeDirection(int value) {
@@ -98,30 +100,32 @@ void loop() {
   mAh += A * (millis() - new_Millis) / 3600000 * 1000; //расчет емкости  в мАч
   new_Millis = millis();
 
-  // Расчет шима в зависимости от Ватт
-  // Расчет "направления" сдвига значения шима
-  if (input_W < last_input_W) { // Если текущие Ватты меньше предыдущих - мы идем в неверном направлении. Меняем направление
-    forward_direction = changeDirection(forward_direction);
-  }
-
-  // Если прошлое и значение значение Ватт разное - корректируем ШИМ
-  if (input_W != last_input_W) {
-
-    if (forward_direction == 0) {
-      PWM = PWM - shim_shift_steps; // понижаем ШИМ если идем "влево"
+  if (millis() - lastTimePwmUpdated > delayPwmUpdate) {
+    // Расчет шима в зависимости от Ватт
+    // Расчет "направления" сдвига значения шима
+    if (input_W < last_input_W) { // Если текущие Ватты меньше предыдущих - мы идем в неверном направлении. Меняем направление
+      forward_direction = changeDirection(forward_direction);
     }
 
-    if (forward_direction == 1) {
-      PWM = PWM + shim_shift_steps; // понижаем ШИМ если идем "влево"
+    // Если прошлое и значение значение Ватт разное - корректируем ШИМ
+    if (input_W != last_input_W) {
+
+      if (forward_direction == 0) {
+        PWM = PWM - shim_shift_steps; // понижаем ШИМ если идем "влево"
+      }
+
+      if (forward_direction == 1) {
+        PWM = PWM + shim_shift_steps; // понижаем ШИМ если идем "влево"
+      }
     }
+
+    // Корректируем значение ШИМЮ, чтобы он не выходил за пределы требуемого диапазона
+    if (PWM < 0) PWM = 0;
+    if (PWM > 255) PWM = 255;
+
+    // Сохраняем значение Ватт для следующей итерации
+    last_input_W = input_W;
   }
-
-  // Корректируем значение ШИМЮ, чтобы он не выходил за пределы требуемого диапазона
-  if (PWM < 0) PWM = 0;
-  if (PWM > 255) PWM = 255;
-
-  // Сохраняем значение Ватт для следующей итерации
-  last_input_W = input_W;
 
   // Определяем температуру на датчике.
 
