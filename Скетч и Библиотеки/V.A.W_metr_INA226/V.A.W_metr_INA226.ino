@@ -28,6 +28,7 @@ float last_input_W = 0; // Прошлое значение Ватт
 int shim_shift_steps = 1; // Количество шагов на которые изменяется шим за раз
 int forward_direction = 0; // "Направление" изменения ШИМА. 0 - "влево", 1 - "вправо"
 int delayPwmUpdate = 100; // Задержка обновления ШИМ
+unsigned long currentTime = 0;
 unsigned long lastTimePwmUpdated = 0; // Тут хранится время последнего обновления ШИМ
 
 // Получение противоположного значения направления изменения шима
@@ -100,7 +101,7 @@ void loop() {
   mAh += A * (millis() - new_Millis) / 3600000 * 1000; //расчет емкости  в мАч
   new_Millis = millis();
 
-  if (millis() - lastTimePwmUpdated > delayPwmUpdate) {
+  if (new_Millis - lastTimePwmUpdated > delayPwmUpdate) {
     // Расчет шима в зависимости от Ватт
     // Расчет "направления" сдвига значения шима
     if (input_W < last_input_W) { // Если текущие Ватты меньше предыдущих - мы идем в неверном направлении. Меняем направление
@@ -125,6 +126,7 @@ void loop() {
 
     // Сохраняем значение Ватт для следующей итерации
     last_input_W = input_W;
+    lastTimePwmUpdated = new_Millis;
   }
 
   // Определяем температуру на датчике.
